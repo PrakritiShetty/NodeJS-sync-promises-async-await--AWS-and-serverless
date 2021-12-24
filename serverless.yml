@@ -10,11 +10,11 @@ provider:
 custom:
   dev:  ##default stage
     env:
-      host: 'ch-buyogo-rds-ch-dev1-rdscluster-1dmi9tf2dmuce.cluster-ctgjyfgcje6u.eu-central-1.rds.amazonaws.com'
-      user: 'masteruser'
-      port: '3306'
-      password: '1XwStHpav01mVUeWnoYqC469SeIlMWxAuQ2' 
-      database:  'iitb_internship_prg'
+      host: process.env.host
+      user: process.env.user
+      port: process.env.port
+      password: process.env.password 
+      database:  process.env.database
 
 functions:
   hello-prakriti: ##name of lambda func is servicename-dev-funcname
