@@ -1,0 +1,61 @@
+service: serverless-aws-project-prakriti
+frameworkVersion: '2 || 3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  stage: ${opt:stage, 'dev'}
+  environment: ${self:custom.${self:provider.stage}.env}
+custom:
+  dev:  ##default stage
+    env:
+      host: 'ch-buyogo-rds-ch-dev1-rdscluster-1dmi9tf2dmuce.cluster-ctgjyfgcje6u.eu-central-1.rds.amazonaws.com'
+      user: 'masteruser'
+      port: '3306'
+      password: '1XwStHpav01mVUeWnoYqC469SeIlMWxAuQ2' 
+      database:  'iitb_internship_prg'
+
+functions:
+  hello-prakriti: ##name of lambda func is servicename-dev-funcname
+    handler: handler.hello ##handler.js is a file in the same folder as serverless. hello func in that
+    events: ##when does this lambda func get triggered
+      - http:
+          path: students ##resource will put /{student_id} when dynamic input happens
+          method: get
+      - http:
+          path: students ##resource
+          method: post
+  
+  readStudents:
+    handler: students/students.readStudents ##folder,file,func
+    events:
+      - http:
+          path: students
+          method: get
+  createStudents:
+    handler: students/students.createStudents
+    events:
+      - http:
+          path: students
+          method: post
+  updateStudentsByID:
+    handler: students/students.updateStudentsByID
+    events:
+      - http:
+          path: students/{student_id} ## will put /{student_id} when dynamic input happens
+          method: put
+          request:
+            parameters:
+              paths:
+                student_id: true
+  deleteStudentsByID:
+    handler: students/students.deleteStudentsByID
+    events:
+      - http:
+          path: students/{student_id} ## will put /{student_id} when dynamic input happens
+          method: delete
+          request:
+            parameters:
+              paths:
+                student_id: true      
